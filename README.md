@@ -18,7 +18,8 @@ O DataWave utiliza algoritmos que processam os dados de comunicação recebidos 
 
 Algumas ideias de telas do aplicativo:
 
-![Tela Inicial](link-para-imagem-tela-inicial)
+![image](https://github.com/user-attachments/assets/17b4ac37-2223-42f5-ab2f-bdf7d8f5f500)
+
 *Home Page*
 
 ![Visualização das Ondas](link-para-imagem-visualizacao-ondas)
