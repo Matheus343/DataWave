@@ -22,7 +22,8 @@ Algumas ideias de telas do aplicativo:
 
 *Home Page*
 
-![Visualização das Ondas](link-para-imagem-visualizacao-ondas)
+![image](https://github.com/user-attachments/assets/3b622dc7-1a70-4aff-9f8c-32cea1744d78)
+
 *Visualização das ondas*
 
 ---
