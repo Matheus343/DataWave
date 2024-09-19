@@ -4,7 +4,7 @@
 
 ## 🌟 Funcionalidades
 
-- Visualização gráfica das onda de comunicação de dados.
+- Visualização gráfica das ondas de comunicação de dados.
 - Cálculo dinâmico de padrões de comunicação.
 - Interface intuitiva e interativa.
 
