@@ -8,27 +8,19 @@ export default function GraficoSinalSaida({ navigation }) {
 
   return (
     <View style={styles.container}>
-      {/* Cabeçalho */}
-      <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Text style={styles.voltar}>←</Text>
-      </TouchableOpacity>
+
       <Text style={styles.title}>Sinal de saída no domínio do tempo</Text>
 
-      {/* Imagem do gráfico */}
       <Image source={require('../assets/grafico6.png')} style={styles.imageGrafico} />
 
-      {/* Texto acima do botão */}
       <Text style={styles.instruction}>Valores utilizados para construção do gráfico</Text>
 
-      {/* Botão Exibir */}
       <TouchableOpacity style={styles.button} onPress={handleExibir}>
         <Text style={styles.buttonText}>Exibir</Text>
       </TouchableOpacity>
 
-      {/* Imagem da tabela */}
       <Image source={require('../assets/tabela_entrada_tempo.png')} style={styles.imageTabela} />
 
-      {/* Botões Início e Cálculo */}
       <View style={styles.footerButtons}>
         <TouchableOpacity style={styles.footerButton} onPress={() => navigation.navigate('Home')}>
           <Text style={styles.footerButtonText}>Início</Text>

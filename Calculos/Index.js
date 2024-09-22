@@ -16,7 +16,6 @@ export default function Calculos({ navigation }) {
       <View style={styles.container}>
         <Text style={styles.title}>DataWave</Text>
 
-        {/* Inputs */}
         <Text style={styles.subTitle}>Insira os valores para os cálculos</Text>
         <View style={styles.row}>
           <TextInput
@@ -24,14 +23,14 @@ export default function Calculos({ navigation }) {
             placeholder="Amplitude"
             value={amplitude}
             onChangeText={setAmplitude}
-            keyboardType="numeric"  // Teclado numérico
+            keyboardType="numeric"
           />
           <TextInput
             style={styles.input}
             placeholder="Frequência"
             value={frequencia}
             onChangeText={setFrequencia}
-            keyboardType="numeric"  // Teclado numérico
+            keyboardType="numeric"  
           />
         </View>
         <View style={styles.row}>
@@ -40,23 +39,21 @@ export default function Calculos({ navigation }) {
             placeholder="Fase"
             value={fase}
             onChangeText={setFase}
-            keyboardType="numeric"  // Teclado numérico
+            keyboardType="numeric" 
           />
           <TextInput
             style={styles.input}
             placeholder="Período"
             value={periodo}
             onChangeText={setPeriodo}
-            keyboardType="numeric"  // Teclado numérico
+            keyboardType="numeric"  
           />
         </View>
 
-        {/* Botão Gerar Gráficos */}
         <TouchableOpacity style={styles.button} onPress={handleGerarGraficos}>
           <Text style={styles.buttonText}>Gerar Gráficos</Text>
         </TouchableOpacity>
 
-        {/* Botões de Gráficos */}
         <View style={styles.graphOptionsContainer}>
           <View style={styles.row}>
             <TouchableOpacity style={styles.option} onPress={() => navigation.navigate('EntradaNoDominioDoTempo')}>
@@ -86,7 +83,6 @@ export default function Calculos({ navigation }) {
           </View>
         </View>
 
-        {/* Botão de Ajuda */}
         <TouchableOpacity style={styles.helpButton} onPress={() => navigation.navigate('Criadores')}>
           <Text style={styles.helpButtonText}>?</Text>
         </TouchableOpacity>

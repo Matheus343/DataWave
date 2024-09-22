@@ -8,25 +8,19 @@ export default function GraficoRespostaFrequencia({ navigation }) {
 
   return (
     <View style={styles.container}>
-      {/* Cabeçalho */}
 
       <Text style={styles.title}>Gráfico da resposta em frequência do canal de comunicações</Text>
 
-      {/* Instrução para o usuário */}
       <Text style={styles.instruction}>*Preencha a tabela:</Text>
 
-      {/* Imagem da tabela */}
       <Image source={require('../assets/tabela_ampli_tempo.jpg')} style={styles.imageTabela} />
 
-      {/* Botão Calcular */}
       <TouchableOpacity style={styles.button} onPress={handleCalcular}>
         <Text style={styles.buttonText}>Calcular</Text>
       </TouchableOpacity>
 
-      {/* Imagem do gráfico */}
       <Image source={require('../assets/grafico5.png')} style={styles.imageGrafico} />
 
-      {/* Botão Início */}
       <TouchableOpacity style={styles.inicioButton} onPress={() => navigation.navigate('Home')}>
         <Text style={styles.inicioText}>Início</Text>
       </TouchableOpacity>

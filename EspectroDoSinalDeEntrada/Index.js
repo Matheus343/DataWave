@@ -4,19 +4,12 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 export default function GraficoEspectroEntrada({ navigation }) {
   return (
     <View style={styles.container}>
-      {/* Cabeçalho */}
-      <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Text style={styles.voltar}>←</Text>
-      </TouchableOpacity>
       <Text style={styles.title}>Gráfico do espectro do sinal de entrada</Text>
 
-      {/* Imagem do gráfico de amplitude */}
       <Image source={require('../assets/grafico3.png')} style={styles.imageGrafico} />
 
-      {/* Imagem do gráfico de fase */}
       <Image source={require('../assets/grafico4.png')} style={styles.imageGrafico} />
 
-      {/* Botões Início e Cálculo */}
       <View style={styles.footerButtons}>
         <TouchableOpacity style={styles.footerButton} onPress={() => navigation.navigate('Home')}>
           <Text style={styles.footerButtonText}>Início</Text>

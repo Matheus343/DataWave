@@ -4,13 +4,10 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      {/* Título */}
       <Text style={styles.title}>DataWave</Text>
       
-      {/* Imagem Central */}
       <Image source={require('../assets/dw_imagem.png')} style={styles.logo} />
     
-      {/* Botão Entrar */}
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Calculos')}>
         <Text style={styles.buttonText}>Entrar</Text>
       </TouchableOpacity>
