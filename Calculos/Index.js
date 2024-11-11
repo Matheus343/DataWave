@@ -7,8 +7,18 @@ export default function Calculos({ navigation }) {
   const [fase, setFase] = useState('');
   const [periodo, setPeriodo] = useState('');
 
-  const handleGerarGraficos = () => {
-    Alert.alert('EM OBRAS', 'RETORNE NO FINAL DO SEMESTRE');
+  const verificarCampos = (tela) => {
+    if (!amplitude || !frequencia || !fase || !periodo) {
+      Alert.alert("Preencha todos os campos", "Por favor, insira valores para todos os campos antes de prosseguir.");
+      return;
+    }
+
+    navigation.navigate(tela, {
+      amplitude: parseFloat(amplitude),
+      frequencia: parseFloat(frequencia),
+      fase: parseFloat(fase),
+      periodo: parseFloat(periodo),
+    });
   };
 
   return (
@@ -30,7 +40,7 @@ export default function Calculos({ navigation }) {
             placeholder="Frequência"
             value={frequencia}
             onChangeText={setFrequencia}
-            keyboardType="numeric"  
+            keyboardType="numeric"
           />
         </View>
         <View style={styles.row}>
@@ -39,45 +49,41 @@ export default function Calculos({ navigation }) {
             placeholder="Fase"
             value={fase}
             onChangeText={setFase}
-            keyboardType="numeric" 
+            keyboardType="numeric"
           />
           <TextInput
             style={styles.input}
             placeholder="Período"
             value={periodo}
             onChangeText={setPeriodo}
-            keyboardType="numeric"  
+            keyboardType="numeric"
           />
         </View>
 
-        <TouchableOpacity style={styles.button} onPress={handleGerarGraficos}>
-          <Text style={styles.buttonText}>Gerar Gráficos</Text>
-        </TouchableOpacity>
+        <View style={styles.separator} />
 
         <View style={styles.graphOptionsContainer}>
           <View style={styles.row}>
-            <TouchableOpacity style={styles.option} onPress={() => navigation.navigate('EntradaNoDominioDoTempo')}>
+            <TouchableOpacity style={styles.option} onPress={() => verificarCampos('EntradaNoDominioDoTempo')}>
               <Text style={styles.optionText}>Gráfico do sinal de entrada no domínio do tempo</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.option} onPress={() => navigation.navigate('EspectroDoSinalDeEntrada')}>
+            <TouchableOpacity style={styles.option} onPress={() => verificarCampos('EspectroDoSinalDeEntrada')}>
               <Text style={styles.optionText}>Gráfico do espectro do sinal de entrada</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.row}>
-            <TouchableOpacity style={styles.option} onPress={() => navigation.navigate('ImpulsoNoDominioDoTempo')}>
+            <TouchableOpacity style={styles.option} onPress={() => verificarCampos('ImpulsoNoDominioDoTempo')}>
               <Text style={styles.optionText}>Gráfico da resposta ao impulso no domínio do tempo</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.option} onPress={() => navigation.navigate('RespostaEmFreqDoCanalDeComunicacoes')}>
-              <Text style={styles.optionText}>
-                Gráfico da resposta em frequência do canal de comunicações
-              </Text>
+            <TouchableOpacity style={styles.option} onPress={() => verificarCampos('RespostaEmFreqDoCanalDeComunicacoes')}>
+              <Text style={styles.optionText}>Gráfico da resposta em frequência do canal de comunicações</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.row}>
-            <TouchableOpacity style={styles.option} onPress={() => navigation.navigate('SaidaNoDominioDoTempo')}>
+            <TouchableOpacity style={styles.option} onPress={() => verificarCampos('SaidaNoDominioDoTempo')}>
               <Text style={styles.optionText}>Gráfico do sinal de saída no domínio do tempo</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.option} onPress={() => navigation.navigate('EspectroDoSinalDeSaida')}>
+            <TouchableOpacity style={styles.option} onPress={() => verificarCampos('EspectroDoSinalDeSaida')}>
               <Text style={styles.optionText}>Gráfico do espectro do sinal de saída</Text>
             </TouchableOpacity>
           </View>
@@ -98,16 +104,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F7F7F7',
     padding: 20,
+    paddingTop: 40, 
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: 15,
   },
   subTitle: {
     fontSize: 16,
-    marginBottom: 25,
-    marginTop: 10,
+    marginBottom: 20, 
+    marginTop: 5,
   },
   row: {
     flexDirection: 'row',
@@ -120,19 +127,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#D3D3D3',
     padding: 10,
     borderRadius: 20,
-  },
-  button: {
-    backgroundColor: '#A9A9F5',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 20,
-    marginBottom: 30,
-    marginTop: 30
-  },
-  buttonText: {
-    fontSize: 16,
-    color: '#000',
     textAlign: 'center',
+  },
+  separator: {
+    width: '100%',
+    height: 1,
+    backgroundColor: '#A9A9F5', 
+    marginVertical: 20,
   },
   graphOptionsContainer: {
     width: '100%',
@@ -154,7 +155,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 30,
     right: 30,
-    backgroundColor: '#A9A9A9',
+    backgroundColor: '#A9A9F5',
     borderRadius: 30,
     width: 50,
     height: 50,
