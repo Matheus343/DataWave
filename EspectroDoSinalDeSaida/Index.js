@@ -31,7 +31,7 @@ export default function GraficoEspectroSaida({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 5,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#F7F7F7',
@@ -40,7 +40,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 20,
+    marginBottom: 7,
+    marginTop: 15,
   },
   footerButtons: {
     flexDirection: 'row',

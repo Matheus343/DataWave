@@ -15,9 +15,7 @@ export default function GraficoSinalSaida({ route, navigation }) {
         fase={fase} 
         periodo={periodo} 
       />
-
-      <Text style={styles.instruction}>Valores utilizados para construção do gráfico</Text>
-
+      
       <View style={styles.footerButtons}>
         <TouchableOpacity style={styles.footerButton} onPress={() => navigation.navigate('Home')}>
           <Text style={styles.footerButtonText}>Início</Text>

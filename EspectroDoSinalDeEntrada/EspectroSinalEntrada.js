@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, Dimensions, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 
-const sampleRate = 100;
+const sampleRate = 200;
 const periodo = 1;
 
 const tiposDeOnda = ['senoidal', 'quadrada', 'denteSerra', 'senoideRetif', 'triangular'];
@@ -102,7 +102,7 @@ const EspectroSinalEntrada = ({ amplitude, frequencia, fase }) => {
           <LineChart
             data={{
               labels: generateLabels(),
-              datasets: [{ data: magnitudes.length > 0 ? magnitudes : [0] }] // Evitando erro de gráfico vazio
+              datasets: [{ data: magnitudes }]
             }}
             width={width}
             height={height}
@@ -116,7 +116,7 @@ const EspectroSinalEntrada = ({ amplitude, frequencia, fase }) => {
           <LineChart
             data={{
               labels: generateLabels(),
-              datasets: [{ data: phases.length > 0 ? phases : [0] }] // Evitando erro de gráfico vazio
+              datasets: [{ data: phases }]
             }}
             width={width}
             height={height}

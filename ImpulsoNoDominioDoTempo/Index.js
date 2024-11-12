@@ -30,7 +30,7 @@ export default function ImpulsoNoDominioDoTempo({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 10,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#F7F7F7',
@@ -39,7 +39,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 20,
+    marginBottom: 60,
+    marginTop: 80,
   },
   footerButtons: {
     flexDirection: 'row',

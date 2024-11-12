@@ -62,9 +62,9 @@ export default function Calculos({ navigation }) {
           />
         </View>
         
-        <View style={styles.row}>
+        <View style={styles.centeredRow}>
           <TextInput
-            style={styles.input}
+            style={[styles.input, styles.fullWidthInput]} 
             placeholder="Frequência de Corte"
             value={frequenciaCorte}
             onChangeText={setFrequenciaCorte}
@@ -134,12 +134,21 @@ const styles = StyleSheet.create({
     width: '100%',
     marginBottom: 10,
   },
+  centeredRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    width: '100%',
+    marginBottom: 10,
+  },
   input: {
     width: '45%',
     backgroundColor: '#D3D3D3',
     padding: 10,
     borderRadius: 20,
     textAlign: 'center',
+  },
+  fullWidthInput: {
+    width: '45%', 
   },
   separator: {
     width: '100%',

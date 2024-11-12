@@ -1,45 +1,62 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Dimensions, ScrollView } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 
-const ImpulsoNoDominioDoTempoGrafico = ({ amplitude, frequencia, fase, periodo }) => {
-  const sampleRate = 100;
-  const numSamples = sampleRate * periodo;
-  const width = Dimensions.get("window").width - 36;
-  const height = 220;
+const sampleRate = 200;
+const T = 0.1;
+const width = Dimensions.get("window").width - 36;
+const height = 220;
+const numSamples = 200; 
 
-  const gerarRespostaImpulso = (type) => {
-    const signal = [];
-    for (let t = 0; t < numSamples; t++) {
-      const time = t / sampleRate;
-      let y;
-      switch (type) {
-        case 'senoidal':
-          y = amplitude * Math.cos(2 * Math.PI * frequencia * time + fase);
-          break;
-        case 'quadrada':
-          y = amplitude * Math.sign(Math.sin(2 * Math.PI * frequencia * time + fase));
-          break;
-        case 'denteSerra':
-          y = amplitude * (2 * (time * frequencia - Math.floor(0.5 + time * frequencia)));
-          break;
-        case 'senoideRetif':
-          y = amplitude * Math.abs(Math.cos(2 * Math.PI * frequencia * time + fase));
-          break;
-        case 'triangular':
-          y = amplitude * (2 * Math.abs(2 * (time * frequencia - Math.floor(time * frequencia + 0.5))) - 1);
-          break;
-        default:
-          y = 0;
-      }
-      signal.push(y);
+const calcularRespostaFrequencia = () => {
+  const frequencias = [];
+  const modulo = [];
+  const fase = [];
+
+  for (let k = 0; k < numSamples; k++) {
+    const omega = (2 * Math.PI * k) / sampleRate;
+    const H_jw = 1 / Math.sqrt(1 + Math.pow(omega * T, 2));
+    const faseH_jw = -Math.atan(omega * T);
+
+    frequencias.push(omega);
+    modulo.push(H_jw);
+    fase.push(faseH_jw);
+  }
+
+  return { frequencias, modulo, fase };
+};
+
+const calcularRespostaImpulso = ({ frequencias, modulo, fase }) => {
+  const h_t = [];
+  const deltaOmega = (2 * Math.PI) / sampleRate;
+
+  for (let tIndex = 0; tIndex < numSamples; tIndex++) {
+    const t = tIndex / sampleRate;
+    let somaReal = 0;
+    let somaImag = 0;
+
+    for (let k = 0; k < numSamples; k++) {
+      const omega = frequencias[k];
+      const H_jw = modulo[k];
+      const faseH_jw = fase[k];
+      
+      const realPart = H_jw * Math.cos(omega * t + faseH_jw);
+      const imagPart = H_jw * Math.sin(omega * t + faseH_jw);
+
+      somaReal += realPart * deltaOmega;
+      somaImag += imagPart * deltaOmega;
     }
-    return signal;
-  };
 
-  const generateLabels = () => {
-    return Array.from({ length: 100 }, (_, i) => (i % 10 === 0 ? i.toString() : ''));
-  };
+    const h_tValue = (somaReal + somaImag) / (2 * Math.PI);
+    h_t.push(h_tValue);
+  }
+
+  return h_t;
+};
+
+const RespostaImpulsoGrafico = () => {
+  const { frequencias, modulo, fase } = calcularRespostaFrequencia();
+  const h_t = calcularRespostaImpulso({ frequencias, modulo, fase });
 
   const chartConfig = {
     backgroundColor: "#A020F0",
@@ -51,70 +68,19 @@ const ImpulsoNoDominioDoTempoGrafico = ({ amplitude, frequencia, fase, periodo }
     style: { borderRadius: 16 },
   };
 
+  const generateLabels = () =>
+    Array.from({ length: h_t.length }, (_, i) => (i % 10 === 0 ? (i / sampleRate).toFixed(2) : ''));
+
   return (
     <ScrollView contentContainerStyle={{ alignItems: 'center', paddingBottom: 20 }}>
-      <View style={{ marginVertical: 10 }}>
-        <Text style={{ textAlign: 'center', marginBottom: 10 }}>Resposta ao Impulso da Onda Senoidal</Text>
-        <LineChart
-          data={{
-            labels: generateLabels(),
-            datasets: [{ data: gerarRespostaImpulso('senoidal') }]
-          }}
-          width={width}
-          height={height}
-          chartConfig={chartConfig}
-          style={{ marginVertical: 8, borderRadius: 16 }}
-        />
-      </View>
+      <Text style={{ fontWeight: 'bold', fontSize: 16, marginBottom: 20 }}>Gráfico da Resposta ao Impulso no Domínio do Tempo</Text>
 
       <View style={{ marginVertical: 10 }}>
-        <Text style={{ textAlign: 'center', marginBottom: 10 }}>Resposta ao Impulso da Onda Quadrada</Text>
+        <Text style={{ textAlign: 'center', marginBottom: 10 }}>h(t) vs Tempo</Text>
         <LineChart
           data={{
             labels: generateLabels(),
-            datasets: [{ data: gerarRespostaImpulso('quadrada') }]
-          }}
-          width={width}
-          height={height}
-          chartConfig={chartConfig}
-          style={{ marginVertical: 8, borderRadius: 16 }}
-        />
-      </View>
-
-      <View style={{ marginVertical: 10 }}>
-        <Text style={{ textAlign: 'center', marginBottom: 10 }}>Resposta ao Impulso da Onda Dente de Serra</Text>
-        <LineChart
-          data={{
-            labels: generateLabels(),
-            datasets: [{ data: gerarRespostaImpulso('denteSerra') }]
-          }}
-          width={width}
-          height={height}
-          chartConfig={chartConfig}
-          style={{ marginVertical: 8, borderRadius: 16 }}
-        />
-      </View>
-
-      <View style={{ marginVertical: 10 }}>
-        <Text style={{ textAlign: 'center', marginBottom: 10 }}>Resposta ao Impulso da Onda Senoidal Retificada</Text>
-        <LineChart
-          data={{
-            labels: generateLabels(),
-            datasets: [{ data: gerarRespostaImpulso('senoideRetif') }]
-          }}
-          width={width}
-          height={height}
-          chartConfig={chartConfig}
-          style={{ marginVertical: 8, borderRadius: 16 }}
-        />
-      </View>
-
-      <View style={{ marginVertical: 10 }}>
-        <Text style={{ textAlign: 'center', marginBottom: 10 }}>Resposta ao Impulso da Onda Triangular</Text>
-        <LineChart
-          data={{
-            labels: generateLabels(),
-            datasets: [{ data: gerarRespostaImpulso('triangular') }]
+            datasets: [{ data: h_t }],
           }}
           width={width}
           height={height}
@@ -126,4 +92,4 @@ const ImpulsoNoDominioDoTempoGrafico = ({ amplitude, frequencia, fase, periodo }
   );
 };
 
-export default ImpulsoNoDominioDoTempoGrafico;
+export default RespostaImpulsoGrafico;

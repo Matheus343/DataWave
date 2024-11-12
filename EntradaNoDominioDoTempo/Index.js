@@ -30,7 +30,7 @@ export default function GraficoSinalEntrada({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 5,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#F7F7F7',

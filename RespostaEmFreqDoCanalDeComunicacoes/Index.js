@@ -19,7 +19,6 @@ export default function GraficoRespostaFrequencia({ route, navigation }) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Gráfico da resposta em frequência do canal de comunicações</Text>
-      <Text style={styles.subtitle}>Tipo de Onda: {waveTypes[waveTypeIndex]}</Text>
 
       <RespostaEmFrequenciaCanal 
         amplitude={amplitude} 
@@ -28,15 +27,6 @@ export default function GraficoRespostaFrequencia({ route, navigation }) {
         periodo={periodo} 
         waveType={waveTypes[waveTypeIndex]}
       />
-
-      <View style={styles.carouselButtons}>
-        <TouchableOpacity style={styles.carouselButton} onPress={handlePreviousWaveType}>
-          <Text style={styles.carouselButtonText}>Anterior</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.carouselButton} onPress={handleNextWaveType}>
-          <Text style={styles.carouselButtonText}>Próximo</Text>
-        </TouchableOpacity>
-      </View>
 
       <View style={styles.footerButtons}>
         <TouchableOpacity style={styles.footerButton} onPress={() => navigation.navigate('Home')}>
@@ -53,7 +43,7 @@ export default function GraficoRespostaFrequencia({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 15,
+    padding: 5,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#F7F7F7',
@@ -97,7 +87,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 20,
     borderRadius: 20,
-    marginBottom: 20,
+    marginBottom: 70,
   },
   footerButtonText: {
     color: 'black',

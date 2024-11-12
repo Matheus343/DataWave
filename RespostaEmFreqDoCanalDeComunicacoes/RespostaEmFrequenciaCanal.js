@@ -1,72 +1,45 @@
-import React from 'react';
-import { View, Text, Dimensions, ScrollView } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Dimensions, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 
-const RespostaEmFrequenciaCanal = ({ amplitude, frequencia, fase, periodo, waveType }) => {
-  const sampleRate = 100;
-  const numSamples = sampleRate * periodo;
-  const width = Dimensions.get("window").width - 36;
-  const height = 220;
+const sampleRate = 200;
+const T = 0.1;
+const numSamples = 100;
+const width = Dimensions.get("window").width - 36;
+const height = 220;
 
-  const gerarSinal = () => {
-    const sinal = [];
-    for (let t = 0; t < numSamples; t++) {
-      const time = t / sampleRate;
-      let y;
-      switch (waveType) {
-        case 'senoidal':
-          y = amplitude * Math.cos(2 * Math.PI * frequencia * time + fase);
-          break;
-        case 'quadrada':
-          y = amplitude * Math.sign(Math.sin(2 * Math.PI * frequencia * time + fase));
-          break;
-        case 'denteSerra':
-          y = amplitude * (2 * (time * frequencia - Math.floor(0.5 + time * frequencia)));
-          break;
-        case 'senoideRetif':
-          y = amplitude * Math.abs(Math.cos(2 * Math.PI * frequencia * time + fase));
-          break;
-        case 'triangular':
-          y = amplitude * (2 * Math.abs(2 * (time * frequencia - Math.floor(time * frequencia + 0.5))) - 1);
-          break;
-        default:
-          y = 0;
-      }
-      sinal.push(y);
-    }
-    return sinal;
+const tiposDeOnda = ['senoidal', 'quadrada'];
+
+const calcularRespostaFrequencia = () => {
+  const frequencias = [];
+  const modulo = [];
+  const fase = [];
+
+  for (let k = 0; k < numSamples; k++) {
+    const omega = (2 * Math.PI * k) / sampleRate;
+    const H_jw = 1 / Math.sqrt(1 + Math.pow(omega * T, 2));
+    const faseH_jw = -Math.atan(omega * T);
+
+    frequencias.push(k);
+    modulo.push(H_jw);
+    fase.push(faseH_jw * (180 / Math.PI));
+  }
+
+  return { modulo, fase };
+};
+
+const RespostaEmFrequenciaCanal = () => {
+  const [currentTypeIndex, setCurrentTypeIndex] = useState(0);
+
+  const handleNextWaveType = () => {
+    setCurrentTypeIndex((currentTypeIndex + 1) % tiposDeOnda.length);
   };
 
-  const dft = (sinal) => {
-    const N = sinal.length;
-    const magnitudes = [];
-    const phases = [];
-
-    for (let k = 0; k < N / 2; k++) {
-      let real = 0;
-      let imag = 0;
-
-      for (let n = 0; n < N; n++) {
-        const angle = (2 * Math.PI * k * n) / N;
-        real += sinal[n] * Math.cos(angle);
-        imag -= sinal[n] * Math.sin(angle);
-      }
-
-      const magnitude = Math.sqrt(real * real + imag * imag);
-      const phase = Math.atan2(imag, real);
-      magnitudes.push(magnitude);
-      phases.push(phase);
-    }
-
-    return { magnitudes, phases };
+  const handlePreviousWaveType = () => {
+    setCurrentTypeIndex((currentTypeIndex - 1 + tiposDeOnda.length) % tiposDeOnda.length);
   };
 
-  const sinal = gerarSinal();
-  const { magnitudes, phases } = dft(sinal);
-
-  const generateLabels = () => {
-    return Array.from({ length: magnitudes.length }, (_, i) => (i % 10 === 0 ? i.toString() : ''));
-  };
+  const { modulo, fase } = calcularRespostaFrequencia();
 
   const chartConfig = {
     backgroundColor: "#A020F0",
@@ -78,14 +51,20 @@ const RespostaEmFrequenciaCanal = ({ amplitude, frequencia, fase, periodo, waveT
     style: { borderRadius: 16 },
   };
 
+  const generateLabels = () => Array.from({ length: modulo.length }, (_, i) => (i % 10 === 0 ? i.toString() : ''));
+
+  const waveType = tiposDeOnda[currentTypeIndex];
+
   return (
     <ScrollView contentContainerStyle={{ alignItems: 'center', paddingBottom: 20 }}>
+      <Text style={styles.title}>Resposta em Frequência do Canal</Text>
+
       <View style={{ marginVertical: 10 }}>
-        <Text style={{ textAlign: 'center', marginBottom: 10 }}>Módulo vs Frequência ({waveType})</Text>
+        <Text style={{ textAlign: 'center', marginBottom: 10 }}>Módulo vs Frequência</Text>
         <LineChart
           data={{
             labels: generateLabels(),
-            datasets: [{ data: magnitudes }]
+            datasets: [{ data: modulo }]
           }}
           width={width}
           height={height}
@@ -95,11 +74,11 @@ const RespostaEmFrequenciaCanal = ({ amplitude, frequencia, fase, periodo, waveT
       </View>
 
       <View style={{ marginVertical: 10 }}>
-        <Text style={{ textAlign: 'center', marginBottom: 10 }}>Fase vs Frequência ({waveType})</Text>
+        <Text style={{ textAlign: 'center', marginBottom: 10 }}>Fase vs Frequência</Text>
         <LineChart
           data={{
             labels: generateLabels(),
-            datasets: [{ data: phases.map(p => p * (180 / Math.PI)) }] // Convertendo de radianos para graus
+            datasets: [{ data: fase }]
           }}
           width={width}
           height={height}
@@ -107,8 +86,36 @@ const RespostaEmFrequenciaCanal = ({ amplitude, frequencia, fase, periodo, waveT
           style={{ marginVertical: 8, borderRadius: 16 }}
         />
       </View>
+
     </ScrollView>
   );
 };
+
+const styles = StyleSheet.create({
+  title: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginTop: 15,
+    marginBottom: 10,
+  },
+  carouselButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '60%',
+    marginVertical: 20,
+  },
+  carouselButton: {
+    backgroundColor: '#A9A9F5',
+    paddingVertical: 5,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+  },
+  carouselButtonText: {
+    color: 'black',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+});
 
 export default RespostaEmFrequenciaCanal;
