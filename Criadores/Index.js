@@ -7,7 +7,6 @@ export default function Screen8() {
       <Text style={styles.text}>Projeto feito por:</Text>
       <Text style={styles.text}>Adriana Martani // RA: 082210012</Text>
       <Text style={styles.text}>Matheus Xavier // RA: 082210042</Text>
-      <Text style={styles.text}>Victor Flohr // RA: 082210026</Text>
       <Text style={styles.text}>Yasmin Maciel  // RA: 082210040</Text>
     </View>
   );

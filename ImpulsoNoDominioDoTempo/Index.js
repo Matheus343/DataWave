@@ -1,29 +1,28 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import ImpulsoNoDominioDoTempoGrafico from './ImpulsoNoDominioTempoGrafico'; 
 
-export default function ImpulsoNoDominioDoTempo({ navigation }) {
-  const handleCalcular = () => {
-    Alert.alert('EM OBRAS', 'RETORNE NO FINAL DO SEMESTRE');
-  };
-
+export default function ImpulsoNoDominioDoTempo({ route, navigation }) {
+  const { amplitude, frequencia, fase, periodo } = route.params; 
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>Gráfico da resposta ao impulso no domínio do tempo</Text>
 
-      <Text style={styles.title}>Gráfico da resposta ao impulso do canal no domínio do tempo</Text>
+      <ImpulsoNoDominioDoTempoGrafico 
+        amplitude={amplitude} 
+        frequencia={frequencia} 
+        fase={fase} 
+        periodo={periodo} 
+      />
 
-      <Text style={styles.instruction}>*Preencha a tabela:</Text>
-
-      <Image source={require('../assets/tabela_ampli_tempo.jpg')} style={styles.imageTabela} />
-
-      <TouchableOpacity style={styles.button} onPress={handleCalcular}>
-        <Text style={styles.buttonText}>Calcular</Text>
-      </TouchableOpacity>
-
-      <Image source={require('../assets/grafico1.jpg')} style={styles.imageGrafico} />
-
-      <TouchableOpacity style={styles.inicioButton} onPress={() => navigation.navigate('Home')}>
-        <Text style={styles.inicioText}>Início</Text>
-      </TouchableOpacity>
+      <View style={styles.footerButtons}>
+        <TouchableOpacity style={styles.footerButton} onPress={() => navigation.navigate('Home')}>
+          <Text style={styles.footerButtonText}>Início</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.footerButton} onPress={() => navigation.navigate('Calculos')}>
+          <Text style={styles.footerButtonText}>Cálculo</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -36,57 +35,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#F7F7F7',
   },
-  voltar: {
-    fontSize: 30,
-    color: 'black',
-    position: 'absolute',
-    top: 20,
-    left: 10,
-  },
   title: {
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 20,
   },
-  instruction: {
-    fontSize: 16,
-    color: 'red',
-    marginBottom: 10,
-  },
-  imageTabela: {
+  footerButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
     width: '100%',
-    height: 150,  // Ajuste o tamanho da imagem conforme necessário
-    resizeMode: 'contain',
-    marginBottom: 20,
   },
-  button: {
+  footerButton: {
     backgroundColor: '#A9A9F5',
-    paddingVertical: 6,
+    paddingVertical: 5,
     paddingHorizontal: 20,
-    borderRadius: 40,
-    marginBottom: 20,
-  },
-  buttonText: {
-    fontSize: 18,
-    color: '#000',
-    textAlign: 'center',
-  },
-  imageGrafico: {
-    width: '100%',
-    height: 200,  // Ajuste o tamanho da imagem conforme necessário
-    resizeMode: 'contain',
-    backgroundColor: '#D3D3D3',
-    marginBottom: 20,
-  },
-  inicioButton: {
-    backgroundColor: '#A9A9F5',
-    padding: 8,
     borderRadius: 20,
-    paddingHorizontal: 30,
-    marginTop: 20,
+    marginBottom: 20,
   },
-  inicioText: {
+  footerButtonText: {
     color: 'black',
     fontWeight: 'bold',
     textAlign: 'center',

@@ -1,25 +1,22 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import SinalSaidaDominioTempoGrafico from './SinalSaidaNoDominioDoTempo';
 
-export default function GraficoSinalSaida({ navigation }) {
-  const handleExibir = () => {
-    Alert.alert('EM OBRAS', 'RETORNE NO FINAL DO SEMESTRE');
-  };
+export default function GraficoSinalSaida({ route, navigation }) {
+  const { amplitude, frequencia, fase, periodo } = route.params; 
 
   return (
     <View style={styles.container}>
-
       <Text style={styles.title}>Sinal de saída no domínio do tempo</Text>
 
-      <Image source={require('../assets/grafico6.png')} style={styles.imageGrafico} />
+      <SinalSaidaDominioTempoGrafico 
+        amplitude={amplitude} 
+        frequencia={frequencia} 
+        fase={fase} 
+        periodo={periodo} 
+      />
 
       <Text style={styles.instruction}>Valores utilizados para construção do gráfico</Text>
-
-      <TouchableOpacity style={styles.button} onPress={handleExibir}>
-        <Text style={styles.buttonText}>Exibir</Text>
-      </TouchableOpacity>
-
-      <Image source={require('../assets/tabela_entrada_tempo.png')} style={styles.imageTabela} />
 
       <View style={styles.footerButtons}>
         <TouchableOpacity style={styles.footerButton} onPress={() => navigation.navigate('Home')}>
@@ -41,47 +38,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#F7F7F7',
   },
-  voltar: {
-    fontSize: 30,
-    color: 'black',
-    position: 'absolute',
-    top: 20,
-    left: 10,
-  },
   title: {
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 20,
   },
-  imageGrafico: {
-    width: '100%',
-    height: 200,
-    resizeMode: 'contain',
-    marginBottom: 20,
-  },
   instruction: {
     fontSize: 16,
     color: '#333',
     marginBottom: 10,
-  },
-  button: {
-    backgroundColor: '#A9A9F5',
-    paddingVertical: 10,
-    paddingHorizontal: 40,
-    borderRadius: 20,
-    marginBottom: 20,
-  },
-  buttonText: {
-    color: 'black',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  imageTabela: {
-    width: '100%',
-    height: 150,
-    resizeMode: 'contain',
-    marginBottom: 20,
   },
   footerButtons: {
     flexDirection: 'row',

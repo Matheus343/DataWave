@@ -6,9 +6,10 @@ export default function Calculos({ navigation }) {
   const [frequencia, setFrequencia] = useState('');
   const [fase, setFase] = useState('');
   const [periodo, setPeriodo] = useState('');
+  const [frequenciaCorte, setFrequenciaCorte] = useState(''); 
 
   const verificarCampos = (tela) => {
-    if (!amplitude || !frequencia || !fase || !periodo) {
+    if (!amplitude || !frequencia || !fase || !periodo || !frequenciaCorte) {
       Alert.alert("Preencha todos os campos", "Por favor, insira valores para todos os campos antes de prosseguir.");
       return;
     }
@@ -18,6 +19,7 @@ export default function Calculos({ navigation }) {
       frequencia: parseFloat(frequencia),
       fase: parseFloat(fase),
       periodo: parseFloat(periodo),
+      frequenciaCorte: parseFloat(frequenciaCorte), 
     });
   };
 
@@ -59,6 +61,16 @@ export default function Calculos({ navigation }) {
             keyboardType="numeric"
           />
         </View>
+        
+        <View style={styles.row}>
+          <TextInput
+            style={styles.input}
+            placeholder="Frequência de Corte"
+            value={frequenciaCorte}
+            onChangeText={setFrequenciaCorte}
+            keyboardType="numeric"
+          />
+        </View>
 
         <View style={styles.separator} />
 
@@ -72,7 +84,7 @@ export default function Calculos({ navigation }) {
             </TouchableOpacity>
           </View>
           <View style={styles.row}>
-            <TouchableOpacity style={styles.option} onPress={() => verificarCampos('ImpulsoNoDominioDoTempo')}>
+           <TouchableOpacity style={styles.option} onPress={() => verificarCampos('ImpulsoNoDominioDoTempo')}>
               <Text style={styles.optionText}>Gráfico da resposta ao impulso no domínio do tempo</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.option} onPress={() => verificarCampos('RespostaEmFreqDoCanalDeComunicacoes')}>

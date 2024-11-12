@@ -1,14 +1,20 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import EspectroSinalSaida from './EspectroSinalSaida';
 
-export default function GraficoEspectroSaida({ navigation }) {
+export default function GraficoEspectroSaida({ route, navigation }) {
+  const { amplitude, frequencia, fase, periodo } = route.params;
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Gráfico do espectro do sinal de saída</Text>
 
-      <Image source={require('../assets/grafico7.png')} style={styles.imageGrafico} />
-
-      <Image source={require('../assets/grafico8.png')} style={styles.imageGrafico} />
+      <EspectroSinalSaida
+        amplitude={amplitude}
+        frequencia={frequencia}
+        fase={fase}
+        periodo={periodo}
+      />
 
       <View style={styles.footerButtons}>
         <TouchableOpacity style={styles.footerButton} onPress={() => navigation.navigate('Home')}>
@@ -30,23 +36,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#F7F7F7',
   },
-  voltar: {
-    fontSize: 30,
-    color: 'black',
-    position: 'absolute',
-    top: 20,
-    left: 10,
-  },
   title: {
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 20,
-  },
-  imageGrafico: {
-    width: '100%',
-    height: 200,
-    resizeMode: 'contain',
     marginBottom: 20,
   },
   footerButtons: {

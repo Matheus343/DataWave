@@ -1,29 +1,51 @@
-import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import RespostaEmFrequenciaCanal from './RespostaEmFrequenciaCanal';
 
-export default function GraficoRespostaFrequencia({ navigation }) {
-  const handleCalcular = () => {
-    Alert.alert('EM OBRAS', 'RETORNE NO FINAL DO SEMESTRE');
+export default function GraficoRespostaFrequencia({ route, navigation }) {
+  const { amplitude, frequencia, fase, periodo } = route.params;
+
+  const [waveTypeIndex, setWaveTypeIndex] = useState(0);
+  const waveTypes = ['senoidal', 'quadrada', 'denteSerra', 'senoideRetif', 'triangular'];
+  
+  const handleNextWaveType = () => {
+    setWaveTypeIndex((waveTypeIndex + 1) % waveTypes.length);
+  };
+
+  const handlePreviousWaveType = () => {
+    setWaveTypeIndex((waveTypeIndex - 1 + waveTypes.length) % waveTypes.length);
   };
 
   return (
     <View style={styles.container}>
-
       <Text style={styles.title}>Gráfico da resposta em frequência do canal de comunicações</Text>
+      <Text style={styles.subtitle}>Tipo de Onda: {waveTypes[waveTypeIndex]}</Text>
 
-      <Text style={styles.instruction}>*Preencha a tabela:</Text>
+      <RespostaEmFrequenciaCanal 
+        amplitude={amplitude} 
+        frequencia={frequencia} 
+        fase={fase} 
+        periodo={periodo} 
+        waveType={waveTypes[waveTypeIndex]}
+      />
 
-      <Image source={require('../assets/tabela_ampli_tempo.jpg')} style={styles.imageTabela} />
+      <View style={styles.carouselButtons}>
+        <TouchableOpacity style={styles.carouselButton} onPress={handlePreviousWaveType}>
+          <Text style={styles.carouselButtonText}>Anterior</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.carouselButton} onPress={handleNextWaveType}>
+          <Text style={styles.carouselButtonText}>Próximo</Text>
+        </TouchableOpacity>
+      </View>
 
-      <TouchableOpacity style={styles.button} onPress={handleCalcular}>
-        <Text style={styles.buttonText}>Calcular</Text>
-      </TouchableOpacity>
-
-      <Image source={require('../assets/grafico5.png')} style={styles.imageGrafico} />
-
-      <TouchableOpacity style={styles.inicioButton} onPress={() => navigation.navigate('Home')}>
-        <Text style={styles.inicioText}>Início</Text>
-      </TouchableOpacity>
+      <View style={styles.footerButtons}>
+        <TouchableOpacity style={styles.footerButton} onPress={() => navigation.navigate('Home')}>
+          <Text style={styles.footerButtonText}>Início</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.footerButton} onPress={() => navigation.navigate('Calculos')}>
+          <Text style={styles.footerButtonText}>Cálculo</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -31,62 +53,71 @@ export default function GraficoRespostaFrequencia({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 15,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#F7F7F7',
-  },
-  voltar: {
-    fontSize: 30,
-    color: 'black',
-    position: 'absolute',
-    top: 20,
-    left: 10,
   },
   title: {
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 20,
+    marginTop: 5,
   },
-  instruction: {
+  subtitle: {
     fontSize: 16,
-    color: 'red',
+    color: '#555',
     marginBottom: 10,
+    marginTop: 10,
   },
-  imageTabela: {
+  carouselButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '80%',
+    marginVertical: 20,
+  },
+  carouselButton: {
+    backgroundColor: '#A9A9F5',
+    paddingVertical: 5,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+  },
+  carouselButtonText: {
+    color: 'black',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  footerButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
     width: '100%',
-    height: 150,
-    resizeMode: 'contain',
-    marginBottom: 20,
   },
-  button: {
+  footerButton: {
     backgroundColor: '#A9A9F5',
     paddingVertical: 5,
     paddingHorizontal: 20,
     borderRadius: 20,
     marginBottom: 20,
   },
-  buttonText: {
-    fontSize: 18,
-    color: '#000',
+  footerButtonText: {
+    color: 'black',
+    fontWeight: 'bold',
     textAlign: 'center',
   },
-  imageGrafico: {
-    width: '100%',
-    height: 200,
-    resizeMode: 'contain',
-    marginBottom: 20,
-  },
-  inicioButton: {
-    backgroundColor: '#A9A9F5',
-    paddingVertical: 5,
-    paddingHorizontal: 20,
-    borderRadius: 25,
+  navigationButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '60%',
     marginTop: 20,
   },
-  inicioText: {
-    color: 'black',
+  navButton: {
+    backgroundColor: '#A9A9F5',
+    padding: 10,
+    borderRadius: 20,
+  },
+  navButtonText: {
+    fontSize: 18,
+    color: '#000',
     fontWeight: 'bold',
     textAlign: 'center',
   },

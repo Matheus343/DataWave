@@ -7,7 +7,6 @@ export default function GraficoEspectroEntrada({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Gráfico do espectro do sinal de entrada</Text>
 
       <EspectroSinalEntrada 
         amplitude={amplitude} 
@@ -31,7 +30,7 @@ export default function GraficoEspectroEntrada({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: -20,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#F7F7F7',
