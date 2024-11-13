@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 export default function Screen8() {
@@ -7,6 +7,8 @@ export default function Screen8() {
       <Text style={styles.text}>Projeto feito por:</Text>
       
       <Text style={styles.text}>Adriana Martani // RA: 082210012</Text>
+
+      <Text style={styles.text}>Victor Flohr // RA: 0822100</Text>
       
       <Text style={styles.text}>Matheus Xavier // RA: 082210042</Text>
 
